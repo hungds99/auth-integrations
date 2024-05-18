@@ -1,7 +1,6 @@
 import {
   Activity,
   ArrowUpRight,
-  CircleUser,
   CreditCard,
   DollarSign,
   Menu,
@@ -15,14 +14,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
@@ -33,13 +24,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import UserAction from '@/components/user-action';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 
 export default async function Dashboard() {
   const { userId } = auth().protect();
-
   const user = await clerkClient.users.getUser(userId);
-
   if (!user) return null;
 
   return (
@@ -108,22 +98,7 @@ export default async function Dashboard() {
               />
             </div>
           </form>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant='secondary' size='icon' className='rounded-full'>
-                <CircleUser className='h-5 w-5' />
-                <span className='sr-only'>Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align='end'>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <UserAction />
         </div>
       </header>
       <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8'>
